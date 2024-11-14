@@ -1,22 +1,21 @@
-name: EDVR_L_REDS_deblur_official
+name: EDVR_L_x4_Vimeo90K_SR_official
 model_type: EDVRModel
-scale: 1
+scale: 4
 num_gpu: 4  # set num_gpu: 0 for cpu mode
 manual_seed: 0
 
 datasets:
   test:
-    name: REDS4
+    name: Vid4
     type: VideoTestDataset
-    dataroot_gt: datasets/REDS/train_sharp
-    dataroot_lq: datasets/REDS/train_blur
-    meta_info_file: basicsr/data/meta_info/meta_info_REDS4_test_GT.txt
+    dataroot_gt: datasets/Vid4/GT
+    dataroot_lq: datasets/Vid4/BIx4
     io_backend:
       type: disk
 
     cache_data: false
-    num_frame: 5
-    padding: replicate
+    num_frame: 7
+    padding: reflection_circle
 
 # network structures
 network_g:
@@ -24,18 +23,18 @@ network_g:
   num_in_ch: 3
   num_out_ch: 3
   num_feat: 128
-  num_frame: 5
+  num_frame: 7
   deformable_groups: 8
   num_extract_block: 5
   num_reconstruct_block: 40
   center_frame_idx: ~
-  hr_in: true
-  with_predeblur: true
+  hr_in: false
+  with_predeblur: false
   with_tsa: true
 
 # path
 path:
-  pretrain_network_g: experiments/pretrained_models/EDVR/EDVR_L_deblur_REDS_official-ca46bd8c.pth
+  pretrain_network_g: experiments/pretrained_models/EDVR/EDVR_L_x4_SR_Vimeo90K_official-162b54e4.pth
   strict_load_g: true
 
 # validation settings

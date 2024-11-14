@@ -1,6 +1,6 @@
-name: EDVR_L_REDS_deblur_official
+name: EDVR_L_x4_REDS_SRblur_official
 model_type: EDVRModel
-scale: 1
+scale: 4
 num_gpu: 4  # set num_gpu: 0 for cpu mode
 manual_seed: 0
 
@@ -9,7 +9,7 @@ datasets:
     name: REDS4
     type: VideoTestDataset
     dataroot_gt: datasets/REDS/train_sharp
-    dataroot_lq: datasets/REDS/train_blur
+    dataroot_lq: datasets/REDS/train_blur_bicubic
     meta_info_file: basicsr/data/meta_info/meta_info_REDS4_test_GT.txt
     io_backend:
       type: disk
@@ -29,13 +29,13 @@ network_g:
   num_extract_block: 5
   num_reconstruct_block: 40
   center_frame_idx: ~
-  hr_in: true
+  hr_in: false
   with_predeblur: true
   with_tsa: true
 
 # path
 path:
-  pretrain_network_g: experiments/pretrained_models/EDVR/EDVR_L_deblur_REDS_official-ca46bd8c.pth
+  pretrain_network_g: experiments/pretrained_models/EDVR/EDVR_L_x4_SRblur_REDS_official-983d7b8e.pth
   strict_load_g: true
 
 # validation settings
