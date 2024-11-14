@@ -1,0 +1,177 @@
+# TODO
+# general settings
+name: 008_hffnet_hffbms_lffb3_vgg_n48b48_gt96_div2k_lr5e-4beta0.99
+# name: 006_hffnet_vgg_n48b48_gt96_div2k_FABlock
+# name: 008_hffnetwn_hffbms_lffb3_vgg_n48b64_gt96_div2k_lr1e-3beta0.99
+model_type: SRModel
+scale: 2
+num_gpu: 1  # set num_gpu: 0 for cpu mode
+manual_seed: 0
+
+# dataset and data loader settings
+datasets:
+  train:
+    name: DIV2K
+    type: PairedImageDataset
+    # dataroot_gt: /home/lhk/dataset/DF2K/DF2K_HR_sub
+    # dataroot_lq: /home/lhk/dataset/DF2K/X2
+    dataroot_gt: /root/data1/DIV2K/DIV2K_train_HR_sub
+    dataroot_lq: /root/data1/DIV2K/X2
+    # datafeature: /root/data1/DF2K/vgg_fea
+# dataroot_vf:
+
+    # (for lmdb)
+    # dataroot_gt: datasets/DIV2K/DIV2K_train_HR_sub.lmdb
+    # dataroot_lq: datasets/DIV2K/DIV2K_train_LR_bicubic_X2_sub.lmdb
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+      # (for lmdb)
+      # type: lmdb
+
+    # gt_size: 128
+    gt_size: 96
+    use_hflip: true
+    use_rot: true
+
+    # data loader
+    num_worker_per_gpu: 6
+    # batch_size_per_gpu: 64
+    # batch_size_per_gpu: 16
+    batch_size_per_gpu: 48
+    dataset_enlarge_ratio: 100
+    # dataset_enlarge_ratio: 1
+    prefetch_mode: ~
+
+  val:
+    name: Set5
+    type: PairedImageDataset
+    # dataroot_gt: /home/lhk/dataset/testSRx2/Set5/HR
+    # dataroot_lq: /home/lhk/dataset/testSRx2/Set5/LR_bicubic/X2
+    # dataroot_gt: /home/lhk/dataset/srtest/Set5/GTmod12
+    # dataroot_lq: /home/lhk/dataset/srtest/Set5/LRbicx2
+    dataroot_gt: /root/data1/testSRx2/Set5/HR
+    dataroot_lq: /root/data1/testSRx2/Set5/LR_bicubic/X2
+    io_backend:
+      type: disk
+
+  val_2:
+    name: Set14
+    type: PairedImageDataset
+    # dataroot_gt: /home/lhk/dataset/testSRx2/Set14/HR
+    # dataroot_lq: /home/lhk/dataset/testSRx2/Set14/LR_bicubic/X2
+    # dataroot_gt: /home/lhk/dataset/srtest/Set14/GTmod12
+    # dataroot_lq: /home/lhk/dataset/srtest/Set14/LRbicx2
+    dataroot_gt: /root/data1/testSRx2/Set14/HR
+    dataroot_lq: /root/data1/testSRx2/Set14/LR_bicubic/X2
+    io_backend:
+      type: disk
+
+  val_3:
+    name: BSD100
+    type: PairedImageDataset
+    # dataroot_gt: /home/lhk/dataset/testSRx2/B100/HR
+    # dataroot_lq: /home/lhk/dataset/testSRx2/B100/LR_bicubic/X2
+    # dataroot_gt: /home/lhk/dataset/srtest/BSD100/GTmod12
+    # dataroot_lq: /home/lhk/dataset/srtest/BSD100/LRbicx2
+    dataroot_gt: /root/data1/testSRx2/B100/HR
+    dataroot_lq: /root/data1/testSRx2/B100/LR_bicubic/X2
+    io_backend:
+      type: disk
+
+  val_4:
+    name: Urban100
+    type: PairedImageDataset
+    # dataroot_gt: /home/lhk/dataset/testSRx2/Urban100/HR
+    # dataroot_lq: /home/lhk/dataset/testSRx2/Urban100/LR_bicubic/X2
+    # dataroot_gt: /home/lhk/dataset/srtest/urban100/GTmod12
+    # dataroot_lq: /home/lhk/dataset/srtest/urban100/LRbicx2
+    dataroot_gt: /root/data1/testSRx2/Urban100/HR
+    dataroot_lq: /root/data1/testSRx2/Urban100/LR_bicubic/X2
+    io_backend:
+      type: disk
+
+  val_5:
+    name: Manga109
+    type: PairedImageDataset
+    # dataroot_gt: /home/lhk/dataset/testSRx2/manga109/HR
+    # dataroot_lq: /home/lhk/dataset/testSRx2/manga109/LR_bicubic/X2
+    # dataroot_gt: /home/lhk/dataset/srtest/manga109/GTmod12
+    # dataroot_lq: /home/lhk/dataset/srtest/manga109/
+    dataroot_gt: /root/data1/testSRx2/manga109/HR
+    dataroot_lq: /root/data1/testSRx2/manga109/LR_bicubic/X2
+    io_backend:
+      type: disk
+
+# network structures
+network_g:
+  type: HFFNET
+  num_in_ch: 3
+  n_feats: 48
+  # n_feats: 32
+  upscale: 2
+  # num_heads: 8
+# path
+path:
+  pretrain_network_g: ~
+  strict_load_g: true
+  # resume_state: /root/data1/experiments/008_hffnetwn_hffbms_lffb3_vgg_n48b64_gt96_div2k_lr1e-3beta0.99/training_states/165000.state
+  resume_state:  /root/data1/experiments/008_hffnet_hffbms_lffb3_vgg_n48b48_gt96_div2k_lr5e-4beta0.99/training_states/895000.state
+# training settings
+train:
+  ema_decay: 0.999
+  optim_g:
+    type: Adam
+    lr: !!float 5e-4
+    # lr: !!float 1e-3
+    weight_decay: 0
+    betas: [0.9, 0.99]
+
+  scheduler:
+    type: MultiStepLR
+    milestones: [200000,400000,600000,800000]
+    gamma: 0.5
+
+  total_iter: 1000000
+  warmup_iter: -1  # no warm up
+
+  # losses
+  pixel_opt:
+    type: L1Loss
+    loss_weight: 1.0
+    reduction: mean
+
+# validation settings
+val:
+  val_freq: !!float 5e3
+  save_img: false
+
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 2
+      test_y_channel: true
+
+    ssim: # metric name, can be arbitrary
+      type: calculate_ssim
+      crop_border: 2
+      test_y_channel: true
+
+    # niqe: # metric name, can be arbitrary
+    #   type: calculate_niqe
+    #   crop_border: 2
+    #   better: lower
+
+# logging settings
+logger:
+  print_freq: 100
+  save_checkpoint_freq: !!float 5e3
+  use_tb_logger: true
+  wandb:
+    project: ~
+    resume_id: ~
+
+# dist training settings
+dist_params:
+  backend: nccl
+  port: 29500
