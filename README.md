@@ -31,7 +31,7 @@ Download:
 5. **Manga109**  (http://www.manga109.org/en/)
 
 ### Training  
-python train.py -opt /rootdatal/basic/options/train/RCAN/train_HFFNETwnosamspt_x2.yml 
+python train.py -opt options/train/RCAN/train_HFFNETwnosamspt_x2.yml 
 
 ### Testing
 python inference/inference_swinir.py --input datasets/Set5/LRbicx4 --patch_size 48 --model_path experiments/pretrained_models/SwinIR/001_classicalSR_DIV2K_s48w8_SwinIR-M_x4.pth --output results/SwinIR_SRX4_DIV2K/Set5
