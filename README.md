@@ -1,6 +1,6 @@
 # DGPANet
 This repo contains the code for our paper "Semantic-Guided Global-Local Collaborative Networks for Lightweight Image Super-Resolution''
-![image](https://github.com/fanamber831/diyidaima/blob/main/fig2_91111.png) 
+![image](https://github.com/fanamber831/diyidaima/blob/main/fig1_911111%20(1).png)
 
 ### Dependencies
 Please install following essential dependencies (see requirements.txt):
